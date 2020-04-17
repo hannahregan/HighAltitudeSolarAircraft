@@ -1,0 +1,24 @@
+clc, clear, close;
+
+% aerodynamic parameters from XFLR5
+% costant angle of attack, level flight occurs at 9.5 m/s
+aoa = 2;           % angle of attack deg
+area = 1.768;      % reference area m^2
+cd = [0.112,0.084,0.064,0.055,0.049,0.044,... 
+      0.039,0.035,0.033,0.030,0.030,0.028,...
+      0.027,0.026,0.025,0.025,0.024,0.024,...
+      0.023,0.023,0.023,0.022,0.022,0.022,...
+      0.022,0.022,0.021,0.021];
+  
+velocity = [3:30]; % m/s
+rho = 1.225;       % air density kg/m^3
+
+drag_f = (1/2*area*rho)*cd.*velocity.^2;
+power = drag_f.*velocity;
+
+
+figure
+plot(velocity,power)
+title('aoa = 2 deg, level flight speed = 9.5 ms^-^1')
+xlabel('velocity (ms^-^1)')
+ylabel('power (W)')
