@@ -33,7 +33,7 @@ for i=1:1:length(Mach_range)
 end
 
 %% %%%% SET WING VALUES FROM XFLR5 %%%%
-Cd_wing_values = [0,0.12,0.084,0.055,0.044,0.034,0.030,0.028,0.026,0.024,0.023,0.023,0.022,0.022,0.021,0.021];
+Cd_wing_values = [0,0.16,0.084,0.055,0.044,0.034,0.030,0.028,0.026,0.024,0.023,0.023,0.022,0.022,0.021,0.021];
 Aref_wing=wingspan*wing_depth;
 Cl = 0.804;
 
@@ -102,6 +102,10 @@ body_P_short=body_P(1:200:3001);
 t_avg=(Power_hannah+total_P_short+Power_req_total+Power_from_complex)./4; % total average
 w_avg=(Power_wing_hannah+wing_P_short+Power_req_wing+Wing_Power)./4; % wing average
 b_avg=(Power_body_hannah+body_P_short+Power_req_body+Body_Power)./4; % body average
+%remove Aidan's 2m/s values: XFLR5 gave errors trying to calculate
+t_avg(2)=(Power_hannah(2)+total_P_short(2)+Power_from_complex(2))/3;
+w_avg(2)=(Power_wing_hannah(2)+wing_P_short(2)+Wing_Power(2))/3;
+
 t_diff_h=((Power_hannah-t_avg)./t_avg)*100;         % total percentage difference % hannah's differences
 w_diff_h=((Power_wing_hannah-w_avg)./w_avg)*100;    % wing percentage difference
 b_diff_h=((Power_body_hannah-b_avg)./b_avg)*100;    % body percentage difference
@@ -115,6 +119,14 @@ t_diff_l=((total_P_short-t_avg)./t_avg)*100;        % luke's differences
 w_diff_l=((wing_P_short-w_avg)./w_avg)*100;
 b_diff_l=((body_P_short-b_avg)./b_avg)*100;
 
+%remove 0/0 errors
+t_diff_h(1)=0; t_diff_a(1)=0; t_diff_g(1)=0; t_diff_l(1)=0; w_diff_h(1)=0; 
+w_diff_a(1)=0; w_diff_g(1)=0; w_diff_l(1)=0; b_diff_a(1)=0; b_diff_h(1)=0; 
+b_diff_g(1)=0; b_diff_l(1)=0;
+
+%remove Aidan's 2m/s values: XFLR5 gave errors trying to calculate
+t_diff_a(2)=0;      % aidan's differences
+w_diff_a(2)=0;
 
 %plot percentage differences
 %legend placeholder for average graph
