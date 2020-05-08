@@ -1,3 +1,5 @@
+%clear all; close all; clc
+
 V_max = 30;
 V_min = 0;
 
